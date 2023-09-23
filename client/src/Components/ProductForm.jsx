@@ -3,26 +3,26 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const ProductForm = (props) => {
-  const { updated, setUpdated } = props;
-  const [title, setTitle] = useState("");
-  const [price, setPrice] = useState();
-  const [description, setDescription] = useState("");
+  const { updated, setUpdated,initialTitle,initialPrice,initialDescription, onSubmitProp } = props;
+  const [title, setTitle] = useState(initialTitle);
+  const [price, setPrice] = useState(initialPrice);
+  const [description, setDescription] = useState(initialDescription);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-
-    axios
-      .post("http://localhost:8000/api/products", {
-        title,
-        price,
-        description,
-      })
-      .then((res) => {
-        console.log(res);
-        console.log(res.data);
-        setUpdated(!updated);
-      })
-      .catch((err) => console.log(err));
+    onSubmitProp({title,price,description})
+    // axios
+    //   .post("http://localhost:8000/api/products", {
+    //     title,
+    //     price,
+    //     description,
+    //   })
+      // .then((res) => {
+      //   console.log(res);
+      //   console.log(res.data);
+      //   setUpdated(!updated);
+      // })
+      // .catch((err) => console.log(err));
   };
 
   return (
@@ -30,17 +30,17 @@ const ProductForm = (props) => {
       <p>
         <label>Title</label>
         <br />
-        <input type="text" onChange={(e) => setTitle(e.target.value)} />
+        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
       </p>
       <p>
-        <label>Age</label>
+        <label>Price</label>
         <br />
-        <input type="number" onChange={(e) => setPrice(e.target.value)} />
+        <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
       </p>
       <p>
         <label>Description</label>
         <br />
-        <input type="text" onChange={(e) => setDescription(e.target.value)} />
+        <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
       </p>
       <input type="submit" />
     </form>
